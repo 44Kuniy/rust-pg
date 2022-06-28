@@ -16,14 +16,15 @@ pub trait Seller {
     fn receive(&mut self, money: &u32) -> u32;
 }
 #[derive(Debug, PartialEq)]
-pub enum TradeError<'a> {
-    PaymentError(&'a u32),
+pub enum TradeError {
+    PaymentError(u32),
     ReceiveError,
 }
 
-impl fmt::Display for TradeError<'static> {
+impl fmt::Display for TradeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let description: &str = match *self {
+        let s = self.to_owned();
+        let description = match s {
             TradeError::PaymentError(&money) => {
                 format!("buyer runs short of moeney: {}", money).as_str()
             }
@@ -33,4 +34,4 @@ impl fmt::Display for TradeError<'static> {
     }
 }
 
-impl error::Error for TradeError<'static> {}
+impl error::Error for TradeError {}

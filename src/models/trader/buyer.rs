@@ -16,7 +16,7 @@ impl Trader for Customer {
 impl Buyer for Customer {
     fn pay(&mut self, money: &u32) -> Result<u32, Box<TradeError>> {
         if &self.wallet < money {
-            return Err(Box::new(TradeError::PaymentError(money)));
+            return Err(Box::new(TradeError::PaymentError(*money)));
         }
         self.wallet -= money;
         Ok(self.wallet)
